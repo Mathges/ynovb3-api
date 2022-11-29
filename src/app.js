@@ -2,8 +2,8 @@ const express = require('express')
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const User = require('./models/user.model');
 require('dotenv').config();
+const apiRouter = require('./routes');
 
 app.use(bodyParser.json())
 
@@ -13,24 +13,7 @@ mongoose.connect(
   console.log("successfully connect to database")
 }).catch(err=>console.log(err))
 
-app.post('/auth/register', (req, res) => {
-  // const { firstName, lastName, password, email } = req.body;
-  const newUser = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    password: req.body.password,
-    email: req.body.email
-  });
-
-  newUser.save()
-  .then(data => {
-    res.send(data);
-  })
-  .catch(err => {
-    res.status(400).send(err)
-  })
-
-})
+app.use("/api/v1", apiRouter)
 
 //Méthod launch app
 app.listen(process.env.PORT, function () {
