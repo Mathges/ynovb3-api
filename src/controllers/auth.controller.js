@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
+var jwt = require('jsonwebtoken');
 
 exports.register = (req, res) => {
   let hashedPassword = bcrypt.hashSync(req.body.password, 10);
@@ -33,9 +34,15 @@ exports.login = (req, res) => {
           auth: false
         })
       }
+      let userToken = jwt.sign({
+        id: user._id,
+        isAdmin:user.isAdmin
+        },process.env.JWT_SECRET
+      )
       res.send({
         message: "User logged",
-        auth:true
+        auth: true,
+        token:userToken
       })
     })
   .catch(err=>res.Status(400).send(err))
