@@ -39,3 +39,7 @@ exports.getUsers = (req, res) => {
     .then(users => res.send(users))
     .catch(err => res.status(400).send(err));
 }
+
+exports.updateUserWishlist = (req, res) => {
+  
+}

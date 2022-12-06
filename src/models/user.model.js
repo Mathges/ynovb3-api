@@ -30,7 +30,10 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  wishlist: [
+    { type: Schema.Types.ObjectId, ref: 'Product' }
+  ]
 },
   {
     timestamps: true
