@@ -1,3 +1,5 @@
+const { reset } = require("nodemon");
+const verifyToken = require("../middlewares/verifyToken");
 const User = require("../models/user.model");
 
 exports.getUser = (req, res) => {
@@ -41,5 +43,18 @@ exports.getUsers = (req, res) => {
 }
 
 exports.updateUserWishlist = (req, res) => {
-  
+  User.findById(req.userToken.id).then(user => {
+    const { wishlist } = user;
+    if (wishlist.includes(req.body.productId)) {
+      return res.send({
+        message:"product already in you wishlist"
+      })
+    }
+    user.wishlist.push(req.body.productId);
+    user.save().then(userUpdate => {
+      User.findById(req.userToken.id).populate('wishlist')
+        .then(user => res.send(user))
+          .catch(err => res.status(404).send(err))
+    })
+  })
 }

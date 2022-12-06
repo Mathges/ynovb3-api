@@ -8,5 +8,6 @@ router.get("/",verifyToken,  userController.getUser);
 router.get("/users", verifyToken, verifyIsAdmin, userController.getUsers);
 router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
+router.post("/wishlist", verifyToken, userController.updateUserWishlist);
 
 module.exports = router;
