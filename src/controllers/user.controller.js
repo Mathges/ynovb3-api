@@ -1,8 +1,7 @@
 const User = require("../models/user.model");
 
 exports.getUser = (req, res) => {
-  console.log(req.userToken);
-  User.findById(req.params.id)
+  User.findById(req.userToken.id)
     .then(user => {
       if (!user) {
         return res.status(404).send({
