@@ -1,5 +1,3 @@
-const { reset } = require("nodemon");
-const verifyToken = require("../middlewares/verifyToken");
 const User = require("../models/user.model");
 
 exports.getUser = (req, res) => {
