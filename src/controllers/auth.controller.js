@@ -2,21 +2,24 @@ const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 var jwt = require('jsonwebtoken');
 
-exports.register = (req, res) => {
-  let hashedPassword = bcrypt.hashSync(req.body.password, 10);
+exports.register = async (req, res) => {
+
   const newUser = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    password: hashedPassword,
+    password: req.body.password,
     email: req.body.email
   });
-  newUser.save()
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(400).send(err)
-    })
+  const newUserToSave = await newUser.save();
+
+  try {
+    return res.send(newUserToSave);
+  }
+
+  catch(err) {
+    res.status(400).send(err)
+  }
+
 }
 
 exports.login = (req, res) => {
