@@ -10,7 +10,7 @@ function verifyToken (req, res, next) {
       message:"Missing token"
     })
   }
-  jwt.verify(token, process.env.JWT_SECRET, function (error, jwtDecoded) {
+  jwt.verify(token.slice(7), process.env.JWT_SECRET, function (error, jwtDecoded) {
     if (error) {
       return res.status(401).send({
         auth: false,

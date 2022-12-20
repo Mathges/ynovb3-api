@@ -43,15 +43,24 @@ exports.getUsers = (req, res) => {
 exports.updateUserWishlist = (req, res) => {
   User.findById(req.userToken.id).then(user => {
     const { wishlist } = user;
+
+    if (req.body.productId === null) {
+      return res.send({
+        message: "body need productId"
+      })
+    }
     if (wishlist.includes(req.body.productId)) {
       return res.send({
         message:"product already in you wishlist"
       })
     }
     user.wishlist.push(req.body.productId);
+    console.log('whishlist updated: ', user.wishlist)
     user.save().then(userUpdate => {
       User.findById(req.userToken.id).populate('wishlist')
-        .then(user => res.send(user))
+        .then(user => 
+          console.log(user),
+          res.send(user))
           .catch(err => res.status(404).send(err))
     })
   })

@@ -10,9 +10,8 @@ exports.register = async (req, res) => {
     password: req.body.password,
     email: req.body.email
   });
-  const newUserToSave = await newUser.save();
-
   try {
+    const newUserToSave = await newUser.save();
     return res.send(newUserToSave);
   }
 
@@ -48,5 +47,8 @@ exports.login = (req, res) => {
         token:userToken
       })
     })
-  .catch(err=>res.Status(400).send(err))
+  .catch(err=>{
+    console.log(err),
+    res.status(400).send(err)
+  })
 }

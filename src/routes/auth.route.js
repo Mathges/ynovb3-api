@@ -6,4 +6,4 @@ const { checkEmail, checkIdentity, checkPassword, validation } = require('../mid
 router.post('/register', checkEmail, checkPassword, checkIdentity, validation, authController.register);
 router.post('/login', checkEmail, checkPassword, validation, authController.login);
 
-module.exports = router;
+module.exports = router;    
